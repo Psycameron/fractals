@@ -1,6 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { getRandomIntInclusive } from "../../utils/Random";
 
+import styles from "./Canvas.module.css";
+
 export function Canvas({ value, setPoint, isActive, setIsActive }) {
   // const [x, setX] = useState(null);
   // const [y, setY] = useState(null);
@@ -10,6 +12,18 @@ export function Canvas({ value, setPoint, isActive, setIsActive }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+
+    function drawLine(x1, y1, x2, y2) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = "#afafaf";
+      ctx.stroke();
+    }
+
+    drawLine(250, 20, 20, 480);
+    drawLine(20, 480, 480, 480);
+    drawLine(250, 20, 480, 480);
 
     function drawPoint(x, y) {
       ctx.beginPath();
@@ -57,7 +71,12 @@ export function Canvas({ value, setPoint, isActive, setIsActive }) {
 
   return (
     <>
-      <canvas ref={canvasRef} width={500} height={500} />
+      <canvas
+        className={styles.canvas}
+        ref={canvasRef}
+        width={500}
+        height={500}
+      />
     </>
   );
 }
