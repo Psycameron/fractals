@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { getRandomIntInclusive } from "../../utils/Random";
 
-export function Canvas() {
+export function Canvas({ value }) {
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
 
