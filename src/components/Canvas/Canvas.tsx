@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
-import { getRandomIntInclusive } from "../../utils/Random";
+// import { getRandomIntInclusive } from "../../utils/Random";
+import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
 import styles from "./Canvas.module.css";
 
@@ -9,7 +10,7 @@ const TRIANGLE = {
   C: { x: 480, y: 480 },
 };
 
-export function Canvas({ value, setPoint, isActive, setIsActive }) {
+export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
   // const [x, setX] = useState(null);
   // const [y, setY] = useState(null);
 
@@ -43,14 +44,29 @@ export function Canvas({ value, setPoint, isActive, setIsActive }) {
     drawPoint(TRIANGLE.C.x, TRIANGLE.C.y);
 
     function handleClick(e) {
-      console.log("first");
       const x = e.clientX - canvas.getBoundingClientRect().left;
       const y = e.clientY - canvas.getBoundingClientRect().top;
-      drawPoint(x, y);
-      setPoint([{ x, y }]);
-      setIsActive(!isActive);
 
-      canvas.removeEventListener("click", handleClick);
+      const isInner = isPointInTriangle(
+        x,
+        y,
+        TRIANGLE.A.x,
+        TRIANGLE.A.y,
+        TRIANGLE.B.x,
+        TRIANGLE.B.y,
+        TRIANGLE.C.x,
+        TRIANGLE.C.y
+      );
+
+      if (isInner) {
+        drawPoint(x, y);
+        setPoint([{ x, y }]);
+        setIsActive(!isActive);
+
+        canvas.removeEventListener("click", handleClick);
+      } else {
+        alert("Please, put a point inside the figure");
+      }
     }
 
     if (!isActive) {

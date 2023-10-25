@@ -25,6 +25,7 @@ function App() {
       )}
       <Canvas
         value={value}
+        point={point}
         setPoint={setPoint}
         isActive={isActive}
         setIsActive={setIsActive}
