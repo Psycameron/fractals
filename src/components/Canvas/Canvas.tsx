@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from "react";
-// import { getRandomIntInclusive } from "../../utils/Random";
+
 import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
 import styles from "./Canvas.module.css";
+import { calculateMidpoint } from "../../utils/MidPoint";
 
 const TRIANGLE = [
   { x: 250, y: 20 },
@@ -10,7 +11,15 @@ const TRIANGLE = [
   { x: 480, y: 480 },
 ];
 
-export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
+export function Canvas({
+  value,
+  point,
+  setPoint,
+  isActive,
+  setIsActive,
+  random,
+  isDrawing,
+}) {
   // const [x, setX] = useState(null);
   // const [y, setY] = useState(null);
 
@@ -76,7 +85,19 @@ export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
     if (isActive) {
       canvas.removeEventListener("click", handleClick);
     }
-  }, [isActive, setIsActive, setPoint]);
+
+    if (isDrawing) {
+      const newPoint = calculateMidpoint(
+        point.x,
+        point.y,
+        TRIANGLE[random].x,
+        TRIANGLE[random].y
+      );
+      console.log(`🚀 ~ useEffect ~ newPoint:`, newPoint);
+      setPoint({ x: newPoint.x, y: newPoint.y });
+      drawPoint(newPoint.x, newPoint.y);
+    }
+  }, [isActive, isDrawing, point.x, point.y, random, setIsActive, setPoint]);
 
   //   useEffect(() => {
   //     const canvas = canvasRef.current;
