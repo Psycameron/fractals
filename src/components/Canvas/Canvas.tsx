@@ -3,6 +3,12 @@ import { getRandomIntInclusive } from "../../utils/Random";
 
 import styles from "./Canvas.module.css";
 
+const TRIANGLE = {
+  A: { x: 250, y: 20 },
+  B: { x: 20, y: 480 },
+  C: { x: 480, y: 480 },
+};
+
 export function Canvas({ value, setPoint, isActive, setIsActive }) {
   // const [x, setX] = useState(null);
   // const [y, setY] = useState(null);
@@ -21,9 +27,9 @@ export function Canvas({ value, setPoint, isActive, setIsActive }) {
       ctx.stroke();
     }
 
-    drawLine(250, 20, 20, 480);
-    drawLine(20, 480, 480, 480);
-    drawLine(250, 20, 480, 480);
+    drawLine(TRIANGLE.A.x, TRIANGLE.A.y, TRIANGLE.B.x, TRIANGLE.B.y);
+    drawLine(TRIANGLE.B.x, TRIANGLE.B.y, TRIANGLE.C.x, TRIANGLE.C.y);
+    drawLine(TRIANGLE.A.x, TRIANGLE.A.y, TRIANGLE.C.x, TRIANGLE.C.y);
 
     function drawPoint(x, y) {
       ctx.beginPath();
@@ -32,9 +38,9 @@ export function Canvas({ value, setPoint, isActive, setIsActive }) {
       ctx.fill();
     }
 
-    drawPoint(250, 20);
-    drawPoint(20, 480);
-    drawPoint(480, 480);
+    drawPoint(TRIANGLE.A.x, TRIANGLE.A.y);
+    drawPoint(TRIANGLE.B.x, TRIANGLE.B.y);
+    drawPoint(TRIANGLE.C.x, TRIANGLE.C.y);
 
     function handleClick(e) {
       console.log("first");
