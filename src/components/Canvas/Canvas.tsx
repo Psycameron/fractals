@@ -4,11 +4,11 @@ import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
 import styles from "./Canvas.module.css";
 
-const TRIANGLE = {
-  A: { x: 250, y: 20 },
-  B: { x: 20, y: 480 },
-  C: { x: 480, y: 480 },
-};
+const TRIANGLE = [
+  { x: 250, y: 20 },
+  { x: 20, y: 480 },
+  { x: 480, y: 480 },
+];
 
 export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
   // const [x, setX] = useState(null);
@@ -28,9 +28,9 @@ export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
       ctx.stroke();
     }
 
-    drawLine(TRIANGLE.A.x, TRIANGLE.A.y, TRIANGLE.B.x, TRIANGLE.B.y);
-    drawLine(TRIANGLE.B.x, TRIANGLE.B.y, TRIANGLE.C.x, TRIANGLE.C.y);
-    drawLine(TRIANGLE.A.x, TRIANGLE.A.y, TRIANGLE.C.x, TRIANGLE.C.y);
+    drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[1].x, TRIANGLE[1].y);
+    drawLine(TRIANGLE[1].x, TRIANGLE[1].y, TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[2].x, TRIANGLE[2].y);
 
     function drawPoint(x, y) {
       ctx.beginPath();
@@ -39,9 +39,9 @@ export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
       ctx.fill();
     }
 
-    drawPoint(TRIANGLE.A.x, TRIANGLE.A.y);
-    drawPoint(TRIANGLE.B.x, TRIANGLE.B.y);
-    drawPoint(TRIANGLE.C.x, TRIANGLE.C.y);
+    drawPoint(TRIANGLE[0].x, TRIANGLE[0].y);
+    drawPoint(TRIANGLE[1].x, TRIANGLE[1].y);
+    drawPoint(TRIANGLE[2].x, TRIANGLE[2].y);
 
     function handleClick(e) {
       const x = e.clientX - canvas.getBoundingClientRect().left;
@@ -50,17 +50,17 @@ export function Canvas({ value, point, setPoint, isActive, setIsActive }) {
       const isInner = isPointInTriangle(
         x,
         y,
-        TRIANGLE.A.x,
-        TRIANGLE.A.y,
-        TRIANGLE.B.x,
-        TRIANGLE.B.y,
-        TRIANGLE.C.x,
-        TRIANGLE.C.y
+        TRIANGLE[0].x,
+        TRIANGLE[0].y,
+        TRIANGLE[1].x,
+        TRIANGLE[1].y,
+        TRIANGLE[2].x,
+        TRIANGLE[2].y
       );
 
       if (isInner) {
         drawPoint(x, y);
-        setPoint([{ x, y }]);
+        setPoint({ x, y });
         setIsActive(!isActive);
 
         canvas.removeEventListener("click", handleClick);
