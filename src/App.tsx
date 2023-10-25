@@ -3,7 +3,7 @@ import "./App.css";
 import { Canvas } from "./components/Canvas/Canvas";
 
 function App() {
-  const [point, setPoint] = useState([]);
+  const [point, setPoint] = useState({ x: 0, y: 0 });
   const [value, setValue] = useState(0);
   const [isActive, setIsActive] = useState(false);
 
