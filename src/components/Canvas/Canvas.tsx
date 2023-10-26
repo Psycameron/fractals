@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
@@ -12,6 +12,21 @@ const TRIANGLE = [
   { x: 480, y: 480 },
 ];
 
+function drawLine(ctx, x1, y1, x2, y2) {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.strokeStyle = "#afafaf";
+  ctx.stroke();
+}
+
+function drawPoint(ctx, x, y) {
+  ctx.beginPath();
+  ctx.arc(x, y, 1, 0, 2 * Math.PI);
+  ctx.fillStyle = "#000000";
+  ctx.fill();
+}
+
 export function Canvas({
   value,
   setValue,
@@ -24,20 +39,40 @@ export function Canvas({
 }) {
   const canvasRef = useRef(null);
 
-  function drawLine(ctx, x1, y1, x2, y2) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = "#afafaf";
-    ctx.stroke();
-  }
+  const drawWithDelay = useCallback(
+    (ctx) => {
+      let counter = 1;
+      let numIterations = 10;
 
-  function drawPoint(ctx, x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, 1, 0, 2 * Math.PI);
-    ctx.fillStyle = "#000000";
-    ctx.fill();
-  }
+      function animate() {
+        for (let i = 1; i < numIterations; i++) {
+          const r = getRandomIntInclusive(0, TRIANGLE.length - 1);
+          const newPoint = calculateMidpoint(
+            point.x,
+            point.y,
+            TRIANGLE[r].x,
+            TRIANGLE[r].y
+          );
+          drawPoint(ctx, newPoint.x, newPoint.y);
+          point.x = newPoint.x;
+          point.y = newPoint.y;
+
+          if (counter < value) {
+            counter++;
+          } else {
+            setIsDrawing(false);
+            setValue(0);
+            return;
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    },
+    [point, value, setValue, setIsDrawing]
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -92,25 +127,9 @@ export function Canvas({
     const ctx = canvas.getContext("2d");
 
     if (isDrawing) {
-      let startPoint = point;
-      for (let i = 1; i <= value; i++) {
-        const r = getRandomIntInclusive(0, TRIANGLE.length - 1);
-
-        const newPoint = calculateMidpoint(
-          startPoint.x,
-          startPoint.y,
-          TRIANGLE[r].x,
-          TRIANGLE[r].y
-        );
-
-        startPoint = { x: newPoint.x, y: newPoint.y };
-
-        drawPoint(ctx, newPoint.x, newPoint.y);
-      }
-      setValue(0);
-      setIsDrawing(!isDrawing);
+      drawWithDelay(ctx);
     }
-  }, [isActive, isDrawing, point, setIsActive, setIsDrawing, setValue, value]);
+  }, [drawWithDelay, isDrawing]);
 
   function clearCanvas() {
     const canvas = canvasRef.current;
