@@ -19,50 +19,38 @@ export function Canvas({
   setPoint,
   isActive,
   setIsActive,
-
   isDrawing,
   setIsDrawing,
 }) {
   const canvasRef = useRef(null);
 
+  function drawLine(ctx, x1, y1, x2, y2) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = "#afafaf";
+    ctx.stroke();
+  }
+
+  function drawPoint(ctx, x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 1, 0, 2 * Math.PI);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    function drawLine(x1, y1, x2, y2) {
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.strokeStyle = "#afafaf";
-      ctx.stroke();
-    }
-
-    drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[1].x, TRIANGLE[1].y);
-    drawLine(TRIANGLE[1].x, TRIANGLE[1].y, TRIANGLE[2].x, TRIANGLE[2].y);
-    drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[2].x, TRIANGLE[2].y);
-
-    function drawPoint(x, y) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1, 0, 2 * Math.PI);
-      ctx.fillStyle = "#000000";
-      ctx.fill();
-    }
-
-    drawPoint(TRIANGLE[0].x, TRIANGLE[0].y);
-    drawPoint(TRIANGLE[1].x, TRIANGLE[1].y);
-    drawPoint(TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(ctx, TRIANGLE[1].x, TRIANGLE[1].y, TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(ctx, TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(ctx, TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[1].x, TRIANGLE[1].y);
   }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
-    function drawPoint(x, y) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1, 0, 2 * Math.PI);
-      ctx.fillStyle = "#000000";
-      ctx.fill();
-    }
 
     function handleClick(e) {
       const x = e.clientX - canvas.getBoundingClientRect().left;
@@ -80,7 +68,7 @@ export function Canvas({
       );
 
       if (isInner) {
-        drawPoint(x, y);
+        drawPoint(ctx, x, y);
         setPoint({ x, y });
         setIsActive(!isActive);
 
@@ -103,13 +91,6 @@ export function Canvas({
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    function drawPoint(x, y) {
-      ctx.beginPath();
-      ctx.arc(x, y, 2, 0, 2 * Math.PI);
-      ctx.fillStyle = "#000000";
-      ctx.fill();
-    }
-
     if (isDrawing) {
       let startPoint = point;
       for (let i = 1; i <= value; i++) {
@@ -124,86 +105,24 @@ export function Canvas({
 
         startPoint = { x: newPoint.x, y: newPoint.y };
 
-        drawPoint(newPoint.x, newPoint.y);
+        drawPoint(ctx, newPoint.x, newPoint.y);
       }
       setValue(0);
-      setIsDrawing(false);
+      setIsDrawing(!isDrawing);
     }
-  }, [isDrawing, point, setIsDrawing, setValue, value]);
+  }, [isActive, isDrawing, point, setIsActive, setIsDrawing, setValue, value]);
 
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   const ctx = canvas.getContext("2d");
+  function clearCanvas() {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //   function drawLine(x1, y1, x2, y2) {
-  //     ctx.beginPath();
-  //     ctx.moveTo(x1, y1);
-  //     ctx.lineTo(x2, y2);
-  //     ctx.strokeStyle = "#afafaf";
-  //     ctx.stroke();
-  //   }
+    drawLine(ctx, TRIANGLE[1].x, TRIANGLE[1].y, TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(ctx, TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[2].x, TRIANGLE[2].y);
+    drawLine(ctx, TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[1].x, TRIANGLE[1].y);
 
-  //   drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[1].x, TRIANGLE[1].y);
-  //   drawLine(TRIANGLE[1].x, TRIANGLE[1].y, TRIANGLE[2].x, TRIANGLE[2].y);
-  //   drawLine(TRIANGLE[0].x, TRIANGLE[0].y, TRIANGLE[2].x, TRIANGLE[2].y);
-
-  //   function drawPoint(x, y) {
-  //     ctx.beginPath();
-  //     ctx.arc(x, y, 2, 0, 2 * Math.PI);
-  //     ctx.fillStyle = "#000000";
-  //     ctx.fill();
-  //   }
-
-  //   drawPoint(TRIANGLE[0].x, TRIANGLE[0].y);
-  //   drawPoint(TRIANGLE[1].x, TRIANGLE[1].y);
-  //   drawPoint(TRIANGLE[2].x, TRIANGLE[2].y);
-
-  //   function handleClick(e) {
-  //     const x = e.clientX - canvas.getBoundingClientRect().left;
-  //     const y = e.clientY - canvas.getBoundingClientRect().top;
-
-  //     const isInner = isPointInTriangle(
-  //       x,
-  //       y,
-  //       TRIANGLE[0].x,
-  //       TRIANGLE[0].y,
-  //       TRIANGLE[1].x,
-  //       TRIANGLE[1].y,
-  //       TRIANGLE[2].x,
-  //       TRIANGLE[2].y
-  //     );
-
-  //     if (isInner) {
-  //       drawPoint(x, y);
-  //       setPoint({ x, y });
-  //       setIsActive(!isActive);
-
-  //       canvas.removeEventListener("click", handleClick);
-  //     } else {
-  //       alert("Please, put a point inside the figure");
-  //     }
-  //   }
-
-  //   if (!isActive) {
-  //     canvas.addEventListener("click", handleClick);
-  //   }
-
-  //   if (isActive) {
-  //     canvas.removeEventListener("click", handleClick);
-  //   }
-
-  //   if (isDrawing) {
-  //     const newPoint = calculateMidpoint(
-  //       point.x,
-  //       point.y,
-  //       TRIANGLE[random].x,
-  //       TRIANGLE[random].y
-  //     );
-  //     console.log(`🚀 ~ useEffect ~ newPoint:`, newPoint);
-  //     setPoint({ x: newPoint.x, y: newPoint.y });
-  //     drawPoint(newPoint.x, newPoint.y);
-  //   }
-  // }, [isActive, isDrawing, point.x, point.y, random, setIsActive, setPoint]);
+    setIsActive(!isActive);
+  }
 
   return (
     <>
@@ -213,6 +132,9 @@ export function Canvas({
         width={500}
         height={500}
       />
+      <button type="button" onClick={clearCanvas} disabled={!isActive}>
+        Clear
+      </button>
     </>
   );
 }

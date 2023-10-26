@@ -13,7 +13,6 @@ function App() {
   const [point, setPoint] = useState({ x: 0, y: 0 });
   const [value, setValue] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [random, setRandom] = useState(0);
   const [isDrawing, setIsDrawing] = useState(false);
 
   function valueChange(e) {
@@ -24,7 +23,7 @@ function App() {
     e.preventDefault();
 
     if (value > 0) {
-      setIsDrawing(true);
+      setIsDrawing(!isDrawing);
     }
   }
 
