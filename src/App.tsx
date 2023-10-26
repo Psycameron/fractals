@@ -11,7 +11,6 @@ const TRIANGLE = [
 
 function App() {
   const [point, setPoint] = useState({ x: 0, y: 0 });
-  console.log(`🚀 ~ App ~ point:`, point);
   const [value, setValue] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [random, setRandom] = useState(0);
@@ -25,13 +24,7 @@ function App() {
     e.preventDefault();
 
     if (value > 0) {
-      setIsDrawing(!isDrawing);
-      for (let i = 0; i <= value; i++) {
-        const r = getRandomIntInclusive(0, TRIANGLE.length - 1);
-        setRandom(r);
-      }
-      setValue(0);
-      setIsDrawing(!isDrawing);
+      setIsDrawing(true);
     }
   }
 
@@ -45,12 +38,13 @@ function App() {
       )}
       <Canvas
         value={value}
+        setValue={setValue}
         point={point}
         setPoint={setPoint}
         isActive={isActive}
         setIsActive={setIsActive}
-        random={random}
         isDrawing={isDrawing}
+        setIsDrawing={setIsDrawing}
       />
       <form onSubmit={handleSubmit}>
         <input type="number" min="0" value={value} onChange={valueChange} />
