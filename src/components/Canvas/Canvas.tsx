@@ -4,7 +4,7 @@ import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
 import styles from "./Canvas.module.css";
 import { calculateMidpoint } from "../../utils/MidPoint";
-import { getRandomIntInclusive } from "../../utils/Random";
+import { getRandomIntInclusive, getRandomHexColor } from "../../utils/Random";
 
 const TRIANGLE = [
   { x: 250, y: 20 },
@@ -23,7 +23,7 @@ function drawLine(ctx, x1, y1, x2, y2) {
 function drawPoint(ctx, x, y) {
   ctx.beginPath();
   ctx.arc(x, y, 1, 0, 2 * Math.PI);
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = getRandomHexColor();
   ctx.fill();
 }
 
