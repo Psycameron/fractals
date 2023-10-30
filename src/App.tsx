@@ -1,13 +1,8 @@
-import { useState } from "react";
-import "./App.css";
-import { Canvas } from "./components/Canvas/Canvas";
-import { getRandomIntInclusive } from "./utils/Random";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-const TRIANGLE = [
-  { x: 250, y: 20 },
-  { x: 20, y: 480 },
-  { x: 480, y: 480 },
-];
+import { Canvas } from "./components/Canvas/Canvas";
+
+import "./App.css";
 
 function App() {
   const [point, setPoint] = useState({ x: 0, y: 0 });
@@ -15,11 +10,11 @@ function App() {
   const [isActive, setIsActive] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  function valueChange(e) {
-    setValue(e.target.value);
+  function valueChange(e: ChangeEvent<HTMLInputElement>): void {
+    setValue(Number(e.target.value));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent): void {
     e.preventDefault();
 
     if (value > 0) {
