@@ -4,8 +4,13 @@ import { Canvas } from "./components/Canvas/Canvas";
 
 import "./App.css";
 
+interface IPoint {
+  x: number;
+  y: number;
+}
+
 function App() {
-  const [point, setPoint] = useState({ x: 0, y: 0 });
+  const [point, setPoint] = useState<IPoint>({ x: 0, y: 0 });
   const [value, setValue] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);

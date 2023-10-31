@@ -4,28 +4,21 @@ import { isPointInTriangle } from "../../utils/AreaDeterminant";
 
 import styles from "./Canvas.module.css";
 import { calculateMidpoint } from "../../utils/MidPoint";
-import { getRandomIntInclusive, getRandomHexColor } from "../../utils/Random";
+import { getRandomIntInclusive } from "../../utils/Random";
+import { drawLine, drawPoint } from "../../utils/Drawing";
 
-const TRIANGLE = [
+interface IPoint {
+  x: number;
+  y: number;
+}
+
+type Triangle = [IPoint, IPoint, IPoint];
+
+const TRIANGLE: Triangle = [
   { x: 250, y: 20 },
   { x: 20, y: 480 },
   { x: 480, y: 480 },
 ];
-
-function drawLine(ctx, x1, y1, x2, y2) {
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.strokeStyle = "#afafaf";
-  ctx.stroke();
-}
-
-function drawPoint(ctx, x, y) {
-  ctx.beginPath();
-  ctx.arc(x, y, 1, 0, 2 * Math.PI);
-  ctx.fillStyle = getRandomHexColor();
-  ctx.fill();
-}
 
 export function Canvas({
   value,
