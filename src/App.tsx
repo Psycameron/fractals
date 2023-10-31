@@ -30,7 +30,9 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Fractals maker</h1>
-      {!isActive ? (
+      {isDrawing ? (
+        <h2>Drawing now...</h2>
+      ) : !isActive ? (
         <h2>Draw the first point inside the figure</h2>
       ) : (
         <h2>Select the number of new points to generate</h2>
