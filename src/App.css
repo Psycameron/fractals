@@ -2,3 +2,33 @@
   text-align: center;
 }
 
+.input {
+  padding: 10px;
+  margin-right: 20px;
+
+  color: #1e1f1f;
+  border-radius: 10px;
+  border: 1px solid #50cc9c;
+
+  transition: border 250ms linear;
+}
+
+.input:hover,
+.input:focus {
+  border: 1px solid #46ad86;
+}
+
+.startButton {
+  padding: 10px;
+
+  color: #1e1f1f;
+  background-color: #50cc9c;
+  border-radius: 10px;
+
+  transition: background-color 250ms linear;
+}
+
+.startButton:hover,
+.startButton:focus {
+  background-color: #46ad86;
+}

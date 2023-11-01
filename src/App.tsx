@@ -48,7 +48,13 @@ function App() {
         setIsDrawing={setIsDrawing}
       />
       <form onSubmit={handleSubmit}>
-        <input type="number" min="0" value={value} onChange={valueChange} />
+        <input
+          className="input"
+          type="number"
+          min="0"
+          value={value}
+          onChange={valueChange}
+        />
         <button className="startButton" type="submit" disabled={!isActive}>
           Generate points
         </button>
