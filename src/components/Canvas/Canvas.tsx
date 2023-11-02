@@ -206,17 +206,22 @@ export function Canvas({
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <canvas
         className={styles.canvas}
         ref={canvasRef}
         width={500}
         height={500}
       />
-      <button type="button" onClick={clearCanvas} disabled={!isActive}>
+      <button
+        className={styles.clearButton}
+        type="button"
+        onClick={clearCanvas}
+        disabled={!isActive}
+      >
         Clear
       </button>
-    </>
+    </div>
   );
 }
 

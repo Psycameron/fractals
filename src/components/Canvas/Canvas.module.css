@@ -1,6 +1,30 @@
-.canvas {
-  /* padding: 20px; */
+.wrapper {
+  position: relative;
+}
 
-  border: 2px solid black;
+.canvas {
+  margin-right: 30px;
+  margin-bottom: 30px;
+
+  border: 1px solid #0c0e0d;
   border-radius: 20px;
+}
+
+.clearButton {
+  position: absolute;
+  bottom: 30px;
+
+  width: 100px;
+  padding: 10px;
+
+  color: #1e1f1f;
+  background-color: #50cc9c;
+  border-radius: 10px;
+
+  transition: background-color 250ms linear;
+}
+
+.clearButton:hover,
+.clearButton:focus {
+  background-color: #46ad86;
 }
